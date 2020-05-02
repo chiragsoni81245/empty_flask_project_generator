@@ -4,10 +4,10 @@ this script will generate an empty flask project
 Syntax : 
 
 *for windows:*
-  >>>python script.py "project_name" "path_on_which_you_wana_create_your_project"
+  >>>python script.py project_name path_on_which_you_wana_create_your_project
   
 *for linux:*
-  >>>python3 script.py "project_name" "path_on_which_you_wana_create_your_project"
+  >>>python3 script.py project_name path_on_which_you_wana_create_your_project
   
 For Linux it will create an alias also so that you can start workin on your project by typing just one word
 
