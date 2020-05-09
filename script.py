@@ -15,11 +15,15 @@ if system=="linux":
 else:
 	project_name = "\\{}".format(sys.argv[1])	
 
-root_path = given_path + project_name + "_v1.0_"
+root_path = given_path + project_name + "_v1.0"
 
 
 def run_command( command ):
-	p1 = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	if system=="linux":
+		p1 = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	else:
+		p1 = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	
 	if p1.returncode==0:
 		print( p1.stdout.decode() )
 		return p1
@@ -71,9 +75,9 @@ def make_virtual_env( path ):
 
 def make_alias( root_dir_path, venv_path ):
 	if system=="linux":
-		alias = 'alias {}="cd {} && subl {} && source {}/bin/activate"'.format(project_name.lower()[1:],root_path, root_path, venv_path)  
-		
-		with open( "{}/.bashrc".format(given_path) ,"a") as f:
+		alias = 'alias {}="cd {} && source {}/bin/activate"'.format(project_name.lower()[1:], root_path, venv_path)  
+		home_directory = os.path.expanduser("~")
+		with open( "{}/.bashrc".format(home_directory) ,"a") as f:
 			f.write('\n{}'.format(alias))
 
 		p1 = os.system("/bin/sh ~/.bashrc")
@@ -92,15 +96,15 @@ if system=="linux":
 	make_folder( root_path + project_name )
 	make_folder( root_path + project_name + "/app" )
 	make_folder( root_path + project_name + "/app/static" )
-	make_folder( root_path + project_name + "/app/template" )
+	make_folder( root_path + project_name + "/app/templates" )
 else:
 	make_folder( root_path  )
 	make_folder( root_path + project_name )
 	make_folder( root_path + project_name + "\\app" )
 	make_folder( root_path + project_name + "\\app\\static" )
-	make_folder( root_path + project_name + "\\app\\template" )
+	make_folder( root_path + project_name + "\\app\\templates" )
 
-init_file_content='''from flask import flask
+init_file_content='''from flask import Flask
 
 app = Flask(__name__)
 
